@@ -1,0 +1,21 @@
+import requests
+from bs4 import BeautifulSoup
+
+# 定义目标网页的URL列表
+urls = ['第一个网页的URL', '第二个网页的URL', '第三个网页的URL']
+
+# 定义目标div的ID列表
+div_ids = ['第一个目标div的ID', '第二个目标div的ID', '第三个目标div的ID']
+
+# 定义输出文件名
+output_file = 'output.txt'
+
+# 发送HTTP请求获取网页内容并提取文字内容
+with open(output_file, 'w', encoding='utf-8') as file:
+    for url, div_id in zip(urls, div_ids):
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        target_div = soup.find('div', id=div_id)
+        text_content = target_div.get_text()
+        file.write(text_content)
+        file.write('\n\n')
